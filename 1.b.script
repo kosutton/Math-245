@@ -1,0 +1,18 @@
+Dataset <- readXL("/Users/kyle/Desktop/Statistical Programming Assignments/245.1.b/Sutton_245.1.b.data.xlsx", 
+  rownames=FALSE, header=TRUE, na="", sheet="Sheet2", stringsAsFactors=FALSE)
+library(abind, pos=20)
+#####Create two-way table and compare two proportions (Fisher's exact test)#####
+Fisher.summary.table <- NULL
+.Table <- NULL
+.Table <- xtabs(~HoursSpentWatchingTV+HoursSpentListeningToRadio, data=Dataset)
+.Table
+colPercents(.Table) # Column Percentages
+.Test <- chisq.test(.Table, correct=TRUE)
+.Test
+remove(.Test)
+res <- NULL
+res <- chisq.test(.Table, correct=TRUE)
+Fisher.summary.table <- rbind(Fisher.summary.table, summary.table.twoway(table=.Table, res=res))
+colnames(Fisher.summary.table)[length(Fisher.summary.table)] <-  gettext(domain="R-RcmdrPlugin.EZR", 
+  colnames(Fisher.summary.table)[length(Fisher.summary.table)])
+Fisher.summary.table
